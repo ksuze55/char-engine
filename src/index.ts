@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 import aiRoutes from "./routes/aiRoutes";
+import adminRoutes from "./routes/adminRoutes";
+import conversationRoutes from "./routes/conversationRoutes";
 
 dotenv.config();
 
@@ -12,9 +14,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api/ai", aiRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+
+app.use("/api/conversations", conversationRoutes);
 
 app.get("/", (req, res) => {
   res.json({
