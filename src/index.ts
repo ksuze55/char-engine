@@ -6,6 +6,8 @@ import userRoutes from "./routes/userRoutes";
 import aiRoutes from "./routes/aiRoutes";
 import adminRoutes from "./routes/adminRoutes";
 import conversationRoutes from "./routes/conversationRoutes";
+import documentRoutes from "./routes/documentRoutes";
+import uploadRoutes from "./routes/uploadRoutes";
 
 dotenv.config();
 
@@ -20,6 +22,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 
 app.use("/api/conversations", conversationRoutes);
+
+app.use("/api/documents", documentRoutes);
+
+app.use("/api/upload", uploadRoutes);
 
 app.get("/", (req, res) => {
   res.json({
