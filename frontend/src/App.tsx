@@ -6,6 +6,7 @@ function App() {
   const [token, setToken] = useState("");
   const [message, setMessage] = useState("");
   const [documents, setDocuments] = useState<any[]>([]);
+  const [summaries, setSummaries] = useState<Record<number, string>>({});
 
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
@@ -80,6 +81,34 @@ function App() {
     }
   }
 
+  async function summarizeDocument(id: number) {
+    try {
+      const res = await fetch(`http://localhost:5000/api/documents/${id}/summarize`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const data = await res.json();
+
+      if (data.summary) {
+        setSummaries({
+          ...summaries,
+          [id]: data.summary
+        });
+      } else {
+        setSummaries({
+          ...summaries,
+          [id]: data.error || data.message || "Summary failed."
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("Failed to summarize document.");
+    }
+  }
+
   return (
     <main style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
       <h1>Char Engine</h1>
@@ -146,6 +175,21 @@ function App() {
                 <h3>{doc.title}</h3>
                 <p>{doc.content}</p>
                 <small>Created: {new Date(doc.createdAt).toLocaleString()}</small>
+
+                <br />
+
+                <button
+                  onClick={() => summarizeDocument(doc.id)}
+                  style={{ marginTop: "0.5rem" }}
+                >
+                  Summarize
+                </button>
+
+                {summaries[doc.id] && (
+                  <p>
+                    <strong>Summary:</strong> {summaries[doc.id]}
+                  </p>
+                )}
               </li>
             ))}
           </ul>
