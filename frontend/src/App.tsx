@@ -141,66 +141,118 @@ function App() {
   }
 
   return (
-    <main
-  style={{
-    maxWidth: "900px",
-    margin: "0 auto",
-    padding: "2rem",
-    fontFamily: "Arial, sans-serif"
-  }}
->
-      <h1 className="text-5xl font-bold text-blue-600">
-  Char Engine
-</h1>
-      <p>AI-assisted workflow, document, and archival system.</p>
+    <main className="max-w-5xl mx-auto p-8 text-gray-800">
+      <h1 className="text-5xl font-bold text-blue-600 mb-2">
+        Char Engine
+      </h1>
 
-      <section style={{ marginTop: "2rem" }}>
-        <h2>Login</h2>
+      <p className="text-gray-600 mb-8">
+        AI-assisted workflow, document, and archival system.
+      </p>
 
-        <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" style={{ display: "block", marginBottom: "0.5rem", padding: "0.5rem", width: "300px" }} />
+      <section className="bg-white shadow rounded-xl p-6 mb-8">
+        <h2 className="text-2xl font-semibold mb-4">Login</h2>
 
-        <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" type="password" style={{ display: "block", marginBottom: "0.5rem", padding: "0.5rem", width: "300px" }} />
+        <input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          className="border rounded-lg px-3 py-2 w-full max-w-sm mb-3 block"
+        />
 
-        <button onClick={login}>Login</button>
-        <p>{message}</p>
+        <input
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          type="password"
+          className="border rounded-lg px-3 py-2 w-full max-w-sm mb-3 block"
+        />
+
+        <button
+          onClick={login}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+        >
+          Login
+        </button>
+
+        <p className="mt-3 text-sm text-gray-600">{message}</p>
       </section>
 
       {token && (
-        <section style={{ marginTop: "2rem" }}>
-          <h2>Documents</h2>
+        <section className="bg-white shadow rounded-xl p-6 mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-semibold">Documents</h2>
 
-          <button onClick={logout} style={{ marginBottom: "1rem" }}>
-            Logout
-          </button>
-
-          <div style={{ marginBottom: "1rem" }}>
-            <input value={newTitle} onChange={(e) => setNewTitle(e.target.value)} placeholder="Document title" style={{ display: "block", marginBottom: "0.5rem", padding: "0.5rem", width: "300px" }} />
-
-            <textarea value={newContent} onChange={(e) => setNewContent(e.target.value)} placeholder="Document content" style={{ display: "block", marginBottom: "0.5rem", padding: "0.5rem", width: "500px", height: "120px" }} />
-
-            <button onClick={createDocument}>Create Document</button>
+            <button
+              onClick={logout}
+              className="border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100"
+            >
+              Logout
+            </button>
           </div>
 
-          <button onClick={fetchDocuments}>Load Documents</button>
+          <div className="mb-6">
+            <input
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder="Document title"
+              className="border rounded-lg px-3 py-2 w-full max-w-sm mb-3 block"
+            />
 
-          <ul style={{ marginTop: "1rem", paddingLeft: 0, listStyle: "none" }}>
+            <textarea
+              value={newContent}
+              onChange={(e) => setNewContent(e.target.value)}
+              placeholder="Document content"
+              className="border rounded-lg px-3 py-2 w-full h-32 mb-3 block"
+            />
+
+            <button
+              onClick={createDocument}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            >
+              Create Document
+            </button>
+          </div>
+
+          <button
+            onClick={fetchDocuments}
+            className="border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 mb-4"
+          >
+            Load Documents
+          </button>
+
+          <ul className="mt-4 space-y-4">
             {documents.map((doc) => (
-              <li key={doc.id} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ccc", borderRadius: "8px" }}>
-                <h3>{doc.title}</h3>
-                <p>{doc.content}</p>
-                <small>Created: {new Date(doc.createdAt).toLocaleString()}</small>
+              <li
+                key={doc.id}
+                className="bg-gray-50 border border-gray-200 rounded-xl p-5"
+              >
+                <h3 className="text-xl font-semibold text-gray-900">
+                  {doc.title}
+                </h3>
 
-                <br />
+                <p className="mt-2 text-gray-700 whitespace-pre-wrap">
+                  {doc.content}
+                </p>
 
-                <button onClick={() => summarizeDocument(doc.id)} style={{ marginTop: "0.5rem" }}>
+                <small className="block mt-2 text-gray-500">
+                  Created: {new Date(doc.createdAt).toLocaleString()}
+                </small>
+
+                <button
+                  onClick={() => summarizeDocument(doc.id)}
+                  className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                >
                   Summarize
                 </button>
 
                 {summaries[doc.id] && (
-                  <p><strong>Summary:</strong> {summaries[doc.id]}</p>
+                  <p className="mt-3 text-gray-700">
+                    <strong>Summary:</strong> {summaries[doc.id]}
+                  </p>
                 )}
 
-                <div style={{ marginTop: "1rem" }}>
+                <div className="mt-4">
                   <input
                     value={questions[doc.id] || ""}
                     onChange={(e) =>
@@ -210,15 +262,20 @@ function App() {
                       })
                     }
                     placeholder="Ask this document a question"
-                    style={{ padding: "0.5rem", width: "350px" }}
+                    className="border rounded-lg px-3 py-2 w-full max-w-md"
                   />
 
-                  <button onClick={() => askDocument(doc.id)} style={{ marginLeft: "0.5rem" }}>
+                  <button
+                    onClick={() => askDocument(doc.id)}
+                    className="ml-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                  >
                     Ask
                   </button>
 
                   {answers[doc.id] && (
-                    <p><strong>Answer:</strong> {answers[doc.id]}</p>
+                    <p className="mt-3 text-gray-700">
+                      <strong>Answer:</strong> {answers[doc.id]}
+                    </p>
                   )}
                 </div>
               </li>
