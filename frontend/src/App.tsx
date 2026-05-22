@@ -149,7 +149,9 @@ function App() {
     fontFamily: "Arial, sans-serif"
   }}
 >
-      <h1>Char Engine</h1>
+      <h1 className="text-5xl font-bold text-blue-600">
+  Char Engine
+</h1>
       <p>AI-assisted workflow, document, and archival system.</p>
 
       <section style={{ marginTop: "2rem" }}>
