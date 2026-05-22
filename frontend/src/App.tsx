@@ -7,6 +7,9 @@ function App() {
   const [message, setMessage] = useState("");
   const [documents, setDocuments] = useState<any[]>([]);
 
+  const [newTitle, setNewTitle] = useState("");
+  const [newContent, setNewContent] = useState("");
+
   async function login() {
     try {
       const res = await fetch("http://localhost:5000/api/auth/login", {
@@ -47,6 +50,36 @@ function App() {
     }
   }
 
+  async function createDocument() {
+    try {
+      const res = await fetch("http://localhost:5000/api/documents", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          title: newTitle,
+          content: newContent
+        })
+      });
+
+      const data = await res.json();
+
+      if (data.id) {
+        setMessage("Document created.");
+        setNewTitle("");
+        setNewContent("");
+        fetchDocuments();
+      } else {
+        setMessage(data.message || "Failed to create document.");
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("Failed to create document.");
+    }
+  }
+
   return (
     <main style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
       <h1>Char Engine</h1>
@@ -78,6 +111,24 @@ function App() {
       {token && (
         <section style={{ marginTop: "2rem" }}>
           <h2>Documents</h2>
+
+          <div style={{ marginBottom: "1rem" }}>
+            <input
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder="Document title"
+              style={{ display: "block", marginBottom: "0.5rem", padding: "0.5rem", width: "300px" }}
+            />
+
+            <textarea
+              value={newContent}
+              onChange={(e) => setNewContent(e.target.value)}
+              placeholder="Document content"
+              style={{ display: "block", marginBottom: "0.5rem", padding: "0.5rem", width: "500px", height: "120px" }}
+            />
+
+            <button onClick={createDocument}>Create Document</button>
+          </div>
 
           <button onClick={fetchDocuments}>Load Documents</button>
 
