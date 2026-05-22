@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  background: #f6f7fb;
+  color: #111827;
+}
+
+button {
+  cursor: pointer;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid #111827;
+  border-radius: 8px;
+  background: white;
+}
+
+input,
+textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
