@@ -6,6 +6,8 @@ function App() {
   const [token, setToken] = useState("");
   const [message, setMessage] = useState("");
   const [documents, setDocuments] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [summaries, setSummaries] = useState<Record<number, string>>({});
   const [questions, setQuestions] = useState<Record<number, string>>({});
   const [answers, setAnswers] = useState<Record<number, string>>({});
@@ -140,6 +142,12 @@ function App() {
     }
   }
 
+  const filteredDocuments = documents.filter((doc) => {
+    const combinedText = `${doc.title} ${doc.content}`.toLowerCase();
+
+    return combinedText.includes(searchTerm.toLowerCase());
+  });
+
   return (
     <main className="max-w-5xl mx-auto p-8 text-gray-800">
       <h1 className="text-5xl font-bold text-blue-600 mb-2">
@@ -221,8 +229,15 @@ function App() {
             Load Documents
           </button>
 
+          <input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search documents..."
+            className="border rounded-lg px-3 py-2 w-full max-w-md mt-4 mb-6 block"
+          />
+
           <ul className="mt-4 space-y-4">
-            {documents.map((doc) => (
+            {filteredDocuments.map((doc) => (
               <li
                 key={doc.id}
                 className="bg-gray-50 border border-gray-200 rounded-xl p-5"
